@@ -1,0 +1,6 @@
+# dsh-context-gear bundle patch: one insert adding the host row. The client
+# half joins the browser graph automatically because package.json declares
+# dsh.client and exports "./client".
+- insert:
+    - id: context-gear
+      name: "@deepseek-ai/dsh-context-gear"
