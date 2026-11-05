@@ -1,0 +1,6 @@
+# Generated test/scratch artifacts (not source of truth)
+client.gen.js
+host.gen.js
+_dbg*.cjs
+_session*.txt
+
