@@ -1,0 +1,64 @@
+{
+  "name": "@deepseek-ai/dsh-context-gear",
+  "description": "上下文压缩档位插件（非商业使用）: 在聊天输入框工具行内提供一个「压缩」按钮，选择 token 档位（200k/300k/500k/800k/1M）并触发一次 /compact（经由内置 dsh-compaction-basic 引擎）——把久远历史浓缩为摘要，同时原样保留系统提示与最近几轮。纯调度，绝不改写消息或 KV 缓存。Non-commercial use only.",
+  "version": "0.2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepseek-ai/deepseek-harness.git",
+    "directory": "packages/plugin/context-gear"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20",
+    "dsh": ">=0.2.0-rc.2"
+  },
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ],
+      "platform": "web"
+    }
+  },
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "scripts": {
+    "build": "node _transpile.cjs host.ts lib/index.js && node _transpile.cjs client.tsx lib/client.js",
+    "smoke": "node _smoke.cjs",
+    "validate": "node _validate.cjs"
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "files": [
+    "locale/*.json",
+    "lib/index.js",
+    "lib/client.js",
+    "lib/types/**/*.d.ts",
+    "cordis.patch.yml",
+    "LICENSE.txt"
+  ]
+}
