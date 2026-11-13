@@ -146,6 +146,17 @@ function run(label) {
     console.log(`  [${i}] ${name.padEnd(5)}  ${hasTok(t, 'cg_tierrow_off') ? 'OFF/disabled' : 'on        '}  disabled=${t.props.disabled}  "${detail}"`);
   });
 
+  // v0.2.1 regression: over-cap tier tooltip must use a real newline, not a
+  // literal backslash-n. Check the first disabled (over-cap) row's title.
+  const overRow = tiers.find((t) => t.props.disabled && (t.children || []).some((c) => textOf(c).includes('超出本模型上下文上限')));
+  let tooltipOk = true;
+  if (overRow && overRow.props.title) {
+    const hasLiteralBackslashN = overRow.props.title.includes('\\n');
+    const hasRealNewline = overRow.props.title.includes('\n');
+    tooltipOk = !hasLiteralBackslashN && hasRealNewline;
+    console.log(`  over-cap tooltip: realNewline=${hasRealNewline} literalBackslashN=${hasLiteralBackslashN} | TOOLTIP=${tooltipOk}`);
+  }
+
   const win = process.env.WIN ? Number(process.env.WIN) : 0;
   const okRows = tiers.length === 5;
   let capOk = true;
